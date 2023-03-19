@@ -31,12 +31,6 @@ public class CourseController {
         return ResponseEntity.ok(courses);
     }
     
-    @GetMapping("/{courseId}")
-    public ResponseEntity<?> getCourseById(@PathVariable Long courseId) {
-        Course course = courseService.getCourseById(courseId);
-        return ResponseEntity.ok(course);
-    }
-    
     @PostMapping("")
     public ResponseEntity<?> createCourse(@RequestBody Course course) {
         Course createdCourse = courseService.createCourse(course);
