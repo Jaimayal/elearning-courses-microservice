@@ -10,6 +10,7 @@ import com.jaimayal.coursesmicroservice.repositories.CourseRepository;
 import feign.FeignException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -99,11 +100,23 @@ public class CourseServiceImpl implements CourseService, CourseUserService {
     }
 
     @Override
+    @Transactional
+    public void unrollUserFromAllCourses(Long userId) {
+        boolean userExistsById = this.userExistsById(userId);
+        if (!userExistsById) {
+            throw new EntityNotFoundException("User not found");
+        }
+        
+        courseRepository.deleteCourseUserById(userId);
+    }
+
+    @Override
     public Course getCourseByIdWithUsers(Long courseId) {
         Course course = this.getCourseById(courseId);
         List<Long> userIds = course.getUserIds().stream()
                 .map(CourseUser::getUserId)
                 .toList();
+        System.out.println(userIds);
         List<UserDTO> users = userMicroserviceClient.getUsersByIdsIn(userIds);
         course.setUsers(users);
         return course;

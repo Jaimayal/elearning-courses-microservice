@@ -37,4 +37,10 @@ public class CourseUserController {
         courseUserService.unrollUser(courseId, userId);
         return ResponseEntity.noContent().build();
     }
+    
+    @DeleteMapping("/users/{userId}")
+    public ResponseEntity<?> unrollUserFromAllCourses(@PathVariable Long userId) {
+        courseUserService.unrollUserFromAllCourses(userId);
+        return ResponseEntity.noContent().build();
+    }
 }

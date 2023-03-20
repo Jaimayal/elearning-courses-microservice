@@ -7,4 +7,5 @@ public interface CourseUserService {
     Course getCourseByIdWithUsers(Long courseId);
     void enrollUser(Long courseId, Long userId);
     void unrollUser(Long courseId, Long userId);
+    void unrollUserFromAllCourses(Long userId);
 }
